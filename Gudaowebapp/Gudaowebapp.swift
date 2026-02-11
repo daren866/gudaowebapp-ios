@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct SwiftUIStarterApp: App {
+struct GudaowebappApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
