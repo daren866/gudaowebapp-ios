@@ -2,6 +2,8 @@ import SwiftUI
 import WebKit
 
 struct WebView: UIViewRepresentable {
+    typealias UIViewType = WKWebView
+    
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         return webView
