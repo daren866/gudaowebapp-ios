@@ -24,10 +24,7 @@ let project = Project(
             deploymentTargets: deploymentTargets,
             infoPlist: .file(path: "Gudaowebapp/Info.plist"),
             sources: ["Gudaowebapp/**/*.swift"],
-            resources: ["Gudaowebapp/Assets.xcassets", "Gudaowebapp/index.html"],
-            dependencies: [
-                .framework(name: "WebKit")
-            ]
+            resources: ["Gudaowebapp/Assets.xcassets", "Gudaowebapp/index.html"]
         )
     ]
 )
