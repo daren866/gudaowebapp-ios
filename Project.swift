@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let deploymentTargets: DeploymentTargets = .iOS("17.0")
+let deploymentTargets: DeploymentTargets = .iOS("13.0")
 
 let project = Project(
     name: "Gudaowebapp",
@@ -20,11 +20,11 @@ let project = Project(
             name: "Gudaowebapp",
             destinations: .iOS,
             product: .app,
-            bundleId: "com.example.SwiftUIStarter",
+            bundleId: "com.gudao.webapp",
             deploymentTargets: deploymentTargets,
-            infoPlist: .file(path: "SwiftUIStarter/Info.plist"),
-            sources: ["SwiftUIStarter/**/*.swift"],
-            resources: ["SwiftUIStarter/Assets.xcassets"]
+            infoPlist: .file(path: "Gudaowebapp/Info.plist"),
+            sources: ["Gudaowebapp/**/*.swift"],
+            resources: ["Gudaowebapp/Assets.xcassets", "Gudaowebapp/index.html"]
         )
     ]
 )
