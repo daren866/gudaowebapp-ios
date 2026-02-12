@@ -5,7 +5,9 @@ import UserNotifications
 
 class WebViewHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print("收到脚本消息:", message.name, "内容:", message.body)
         if message.name == "notice", let text = message.body as? String {
+            print("处理通知消息:", text)
             // 发送本地通知
             let content = UNMutableNotificationContent()
             content.title = "通知"
@@ -13,7 +15,13 @@ class WebViewHandler: NSObject, WKScriptMessageHandler {
             content.sound = UNNotificationSound.default
             
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-            UNUserNotificationCenter.current().add(request)
+            UNUserNotificationCenter.current().add(request) { error in
+                if error != nil {
+                    print("发送通知失败:", error?.localizedDescription ?? "未知错误")
+                } else {
+                    print("发送通知成功")
+                }
+            }
         }
     }
 }
@@ -26,6 +34,8 @@ struct WebView: UIViewRepresentable {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             if granted {
                 print("通知权限已授权")
+            } else {
+                print("通知权限被拒绝:", error?.localizedDescription ?? "未知错误")
             }
         }
         

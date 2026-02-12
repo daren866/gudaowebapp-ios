@@ -31,9 +31,13 @@
     </div>
     <script>
         function notice(text) {
+            console.log('调用 notice 函数:', text);
             // 调用原生代码的通知功能
             if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.notice) {
+                console.log('发送消息到原生代码');
                 window.webkit.messageHandlers.notice.postMessage(text);
+            } else {
+                console.log('webkit.messageHandlers.notice 不存在');
             }
         }
     </script>
