@@ -6,20 +6,17 @@ import UserNotifications
 class WebViewHandler: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         print("收到脚本消息:", message.name, "内容:", message.body)
-        if message.name == "notice", let text = message.body as? String {
-            print("处理通知消息:", text)
-            // 发送本地通知
-            let content = UNMutableNotificationContent()
-            content.title = "通知"
-            content.body = text
-            content.sound = UNNotificationSound.default
-            
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
-            UNUserNotificationCenter.current().add(request) { error in
-                if error != nil {
-                    print("发送通知失败:", error?.localizedDescription ?? "未知错误")
-                } else {
-                    print("发送通知成功")
+        if message.name == "alert", let text = message.body as? String {
+            print("处理提示消息:", text)
+            // 在主线程中显示系统提示
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(title: "提示", message: text, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
+                
+                // 获取当前的视图控制器
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let rootViewController = windowScene.windows.first?.rootViewController {
+                    rootViewController.present(alertController, animated: true, completion: nil)
                 }
             }
         }
@@ -45,7 +42,7 @@ struct WebView: UIViewRepresentable {
         
         // 添加脚本消息处理器
         let handler = WebViewHandler()
-        userContentController.add(handler, name: "notice")
+        userContentController.add(handler, name: "alert")
         configuration.userContentController = userContentController
         
         let webView = WKWebView(frame: .zero, configuration: configuration)

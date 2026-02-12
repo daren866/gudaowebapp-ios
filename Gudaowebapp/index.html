@@ -27,17 +27,18 @@
 <body>
     <div class="container">
         <h1>Gudaowebapp-ios验证</h1>
-        <button onclick="notice('函数测试哦哦哦')">点击测试通知</button>
+        <button onclick="showAlert('函数测试哦哦哦')">点击测试提示</button>
     </div>
     <script>
-        function notice(text) {
-            console.log('调用 notice 函数:', text);
-            // 调用原生代码的通知功能
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.notice) {
+        function showAlert(text) {
+            console.log('调用 showAlert 函数:', text);
+            // 调用原生代码的提示功能
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.alert) {
                 console.log('发送消息到原生代码');
-                window.webkit.messageHandlers.notice.postMessage(text);
+                window.webkit.messageHandlers.alert.postMessage(text);
             } else {
-                console.log('webkit.messageHandlers.notice 不存在');
+                console.log('webkit.messageHandlers.alert 不存在，使用浏览器默认提示');
+                alert(text);
             }
         }
     </script>
