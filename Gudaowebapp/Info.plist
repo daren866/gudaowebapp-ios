@@ -36,5 +36,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>此应用需要发送通知的权限，以便在您点击测试按钮时显示通知。</string>
 </dict>
 </plist>

@@ -1,12 +1,44 @@
 // -*- coding: utf-8 -*-
 import SwiftUI
 import WebKit
+import UserNotifications
+
+class WebViewHandler: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "notice", let text = message.body as? String {
+            // 发送本地通知
+            let content = UNMutableNotificationContent()
+            content.title = "通知"
+            content.body = text
+            content.sound = UNNotificationSound.default
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request)
+        }
+    }
+}
 
 struct WebView: UIViewRepresentable {
     typealias UIViewType = WKWebView
     
     func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
+        // 请求通知权限
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            if granted {
+                print("通知权限已授权")
+            }
+        }
+        
+        // 创建 WebView 配置
+        let configuration = WKWebViewConfiguration()
+        let userContentController = WKUserContentController()
+        
+        // 添加脚本消息处理器
+        let handler = WebViewHandler()
+        userContentController.add(handler, name: "notice")
+        configuration.userContentController = userContentController
+        
+        let webView = WKWebView(frame: .zero, configuration: configuration)
         return webView
     }
     

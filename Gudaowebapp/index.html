@@ -27,6 +27,15 @@
 <body>
     <div class="container">
         <h1>Gudaowebapp-ios验证</h1>
+        <button onclick="notice('函数测试哦哦哦')">点击测试通知</button>
     </div>
+    <script>
+        function notice(text) {
+            // 调用原生代码的通知功能
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.notice) {
+                window.webkit.messageHandlers.notice.postMessage(text);
+            }
+        }
+    </script>
 </body>
 </html>
