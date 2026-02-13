@@ -38,5 +38,7 @@
 	<true/>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>此应用需要发送通知的权限，以便在您点击测试按钮时显示通知。</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>此应用需要访问相册的权限，以便保存图片。</string>
 </dict>
 </plist>
